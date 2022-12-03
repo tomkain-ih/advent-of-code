@@ -9,11 +9,9 @@ import (
 	"strconv"
 )
 
-// instructions/2022-01-calorie-counting.txt
-
 // Part 1
 func findMaxElfCalories() int {
-	file, err := os.Open("inputs/2022-01-calories.txt")
+	file, err := os.Open("2022-01-input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,7 +48,7 @@ func findMaxElfCalories() int {
 
 // Part 2
 func findAndSumTopThreeElfCalories() int {
-	file, err := os.Open("inputs/2022-01-calories.txt")
+	file, err := os.Open("2022-01-input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
