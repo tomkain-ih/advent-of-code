@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -14,10 +15,66 @@ import (
 // calculate value of duplicative character
 // sum values
 func main() {
-	//inputLines := readInputLines()
-	inputLines := exampleInputLines()
-	total := calculateDuplicativeCharacterValue(inputLines)
-	fmt.Println(total)
+	// Part 1
+	fmt.Println(calculateDuplicativeCharacterValue(readInputLines()))
+
+	// Part 2
+	fmt.Println(calculateCommonCharacterValueAcrossGroupsOfRucksacks(readInputLines(), 3))
+}
+
+func calculateCommonCharacterValueAcrossGroupsOfRucksacks(lines []string, groupSize int) (total int) {
+	for i := 0; i < len(lines); i += groupSize {
+		end := i + groupSize
+		if end > len(lines) {
+			end = len(lines)
+		}
+
+		character, err := findCommonCharacter(lines[i:end])
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			total = total + characterValue(character)
+		}
+	}
+	return total
+}
+
+func findCommonCharacter(group []string) (rune, error) {
+	var common []rune
+	for _, rucksack := range group {
+		r := []rune(rucksack)
+		if common == nil {
+			common = r
+		} else {
+			common = Intersection(common, r)
+		}
+	}
+	if len(common) != 1 {
+		return 'a', errors.New("problem finding single common character")
+	}
+	return common[0], nil
+
+}
+
+func Intersection(a, b []rune) (c []rune) {
+	m := make(map[rune]int)
+
+	for _, item := range a {
+		m[item] = 1
+	}
+
+	for _, item := range b {
+		if _, ok := m[item]; ok {
+			i := m[item]
+			m[item] = i + 1
+		}
+	}
+	for k, e := range m {
+		if e > 1 {
+			c = append(c, k)
+		}
+	}
+	return
 }
 
 func calculateDuplicativeCharacterValue(lines []string) int {
@@ -25,8 +82,8 @@ func calculateDuplicativeCharacterValue(lines []string) int {
 	for _, line := range lines {
 		chars := []rune(line)
 		midpoint := len(chars) / 2
-		firstHalf := string(chars[0 : midpoint+1])
-		secondHalf := chars[midpoint : len(chars)-1]
+		firstHalf := string(chars[0:midpoint])
+		secondHalf := chars[midpoint:]
 
 		for _, c := range secondHalf {
 			if strings.Contains(firstHalf, string(c)) {
