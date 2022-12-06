@@ -29,3 +29,22 @@ func (s *StackInstruction) Execute(stacks []*Stack) {
 		stacks[s.Destination-1].Push(v)
 	}
 }
+
+func (s *StackInstruction) ExecuteMulti(stacks []*Stack) {
+	queue := NewStack()
+	for i := 0; i < s.Quantity; i++ {
+		v := stacks[s.From-1].Pop()
+		queue.Push(v)
+	}
+	for range queue.nodes {
+		pop := queue.Pop()
+		stacks[s.Destination-1].Push(pop)
+	}
+	// ^ this worked
+	/*for i := 0; i < queue.count; i++ {
+		pop := queue.Pop()
+		fmt.Println(charValue(pop.Value))
+		stacks[s.Destination-1].Push(pop)
+	}*/
+	// ^ this didn't
+}

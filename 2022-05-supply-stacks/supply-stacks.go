@@ -14,7 +14,15 @@ func main() {
 	stacks := readInputStacks()
 	//rawInstrs := readExampleInstructions()
 	rawInstrs := readInstructionsFromFile()
-	executeInstructions(stacks, rawInstrs)
+	executeInstructions(stacks, rawInstrs, false)
+	fmt.Println(getTopCrates(stacks))
+
+	// Part 2
+	//stacks = readExampleStacks()
+	stacks = readInputStacks()
+	//rawInstrs = readExampleInstructions()
+	rawInstrs = readInstructionsFromFile()
+	executeInstructions(stacks, rawInstrs, true)
 	fmt.Println(getTopCrates(stacks))
 
 }
@@ -27,12 +35,15 @@ func getTopCrates(stacks []*Stack) (message string) {
 	return
 }
 
-func executeInstructions(stacks []*Stack, instrs []string) {
+func executeInstructions(stacks []*Stack, instrs []string, multi bool) {
 	for _, r := range instrs {
 		instr := new(StackInstruction)
 		instr.NewStackInstruction(r)
-		//fmt.Println(instr.String())
-		instr.Execute(stacks)
+		if multi {
+			instr.ExecuteMulti(stacks)
+		} else {
+			instr.Execute(stacks)
+		}
 	}
 }
 
