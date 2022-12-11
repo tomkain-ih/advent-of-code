@@ -18,7 +18,7 @@ func main() {
 	fmt.Println(countTailPositions(input))
 
 	// Part 2
-	fmt.Println(countMultiTailPositions(input, 9))
+	fmt.Println(countMultiTailPositions(input, 9)) //2617 incorrect
 	//singleMove()
 
 }
