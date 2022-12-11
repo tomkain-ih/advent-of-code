@@ -58,7 +58,7 @@ func countTailPositions(input []string) int {
 
 func explodedInstruction(instr string) string {
 	d := string(instr[0])
-	c, _ := strconv.Atoi(string(instr[2]))
+	c, _ := strconv.Atoi(instr[2:])
 	repeat := strings.Repeat(d, c)
 	return repeat
 }
