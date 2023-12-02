@@ -22,6 +22,14 @@ public class Main {
         solvePartTwo();
     }
 
+    private static void testPartOneExample() {
+        List<String> lines = splitLines(PART_ONE_EXAMPLE_INPUT);
+        assert lines.size() == 4;
+        long sum = lines.stream().map(l -> decipherLineValue(l, Main::findDigitCharacters)).reduce(0L, Long::sum);
+
+        assert sum == 142;
+    }
+
     private static void solvePartOne() {
         List<String> lines = readFile(INPUT);
         assert lines.size() == 1000;
@@ -29,6 +37,14 @@ public class Main {
 
 //        System.out.println("Part 1 Input Sum: " + sum);
         assert sum == 53334;
+    }
+
+    private static void testPartTwoExample() {
+        List<String> lines = splitLines(PART_TWO_EXAMPLE_INPUT);
+        assert lines.size() == 7;
+        long sum = lines.stream().map(l -> decipherLineValue(l, Main::findDigitAndSpelledNumbers)).reduce(0L, Long::sum);
+
+        assert sum == 281;
     }
 
     private static void solvePartTwo() {
@@ -44,22 +60,6 @@ public class Main {
         InputStream inputStream = Main.class.getClassLoader().getResourceAsStream(filepath);
         assert inputStream != null;
         return new BufferedReader(new InputStreamReader(inputStream)).lines().toList();
-    }
-
-    private static void testPartOneExample() {
-        List<String> lines = splitLines(PART_ONE_EXAMPLE_INPUT);
-        assert lines.size() == 4;
-        long sum = lines.stream().map(l -> decipherLineValue(l, Main::findDigitCharacters)).reduce(0L, Long::sum);
-
-        assert sum == 142;
-    }
-
-    private static void testPartTwoExample() {
-        List<String> lines = splitLines(PART_TWO_EXAMPLE_INPUT);
-        assert lines.size() == 7;
-        long sum = lines.stream().map(l -> decipherLineValue(l, Main::findDigitAndSpelledNumbers)).reduce(0L, Long::sum);
-
-        assert sum == 281;
     }
 
     private static List<String> splitLines(String input) {
