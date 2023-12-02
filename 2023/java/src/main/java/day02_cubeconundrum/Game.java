@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class Game {
+class Game {
 
     private final long id;
     private final List<Map<String, Integer>> rounds = new ArrayList<>();

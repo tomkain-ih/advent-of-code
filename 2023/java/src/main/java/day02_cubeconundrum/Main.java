@@ -39,12 +39,10 @@ public class Main {
     }
 
     private static void testPartTwoExample() {
-        List<Game> games = readExample().stream()
-                .map(Game::new).toList();
-        for (Game game : games) {
+        List<Game> games = readExample().stream().map(Game::new).toList();
+        games.forEach(game -> {
             assert game.getPower() == PART_TWO_EXPECTED_POWERS.get(game.getId());
-        }
-
+        });
         var powerSum = games.stream().map(Game::getPower).reduce(0L, Long::sum);
         assert powerSum == 2286;
     }
