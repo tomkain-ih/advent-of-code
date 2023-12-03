@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 
-public class Main {
+class Main {
 
   private static final String INPUT = "inputs/day01_trebuchet.txt";
 

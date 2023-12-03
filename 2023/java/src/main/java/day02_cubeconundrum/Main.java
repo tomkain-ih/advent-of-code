@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class Main {
+class Main {
 
   private static final String INPUT = "inputs/day02_cube-conundrum.txt";
 
@@ -58,8 +58,8 @@ public class Main {
   }
 
   private static List<String> readInput() {
-    InputStream inputStream = day01_trebuchet.Main.class.getClassLoader()
-                                                        .getResourceAsStream(INPUT);
+    InputStream inputStream = Main.class.getClassLoader()
+                                        .getResourceAsStream(INPUT);
     assert inputStream != null;
     return new BufferedReader(new InputStreamReader(inputStream)).lines().toList();
   }
