@@ -18,6 +18,8 @@ class Main {
   public static void main(String[] args) {
     testPartOneExample();
     solvePartOne();
+
+//    part 2 == 73074886
   }
 
   private static void testPartOneExample() {
@@ -28,7 +30,7 @@ class Main {
   private static void solvePartOne() {
     List<String> lines = readFile(INPUT);
     long sum = sumPartNumbers(lines);
-    if (sum == 529399) {
+    if (sum != 527369) {
       throw new AssertionError("Wrong answer: " + sum);
       //TODO fix other asserts
     }
