@@ -7,11 +7,12 @@ import (
 
 func main() {
 	solvers := []Solver{
-		day01.Day01Solver{},
+		day01.Solver{},
 		// Add more solvers as needed, e.g., day02.Day02Solver{}
 	}
 
 	solver := solvers[len(solvers)-1]
 	fmt.Println(solver.GetLabel())
-	fmt.Println(solver.Solve())
+	fmt.Println(solver.SolvePart1())
+	fmt.Println(solver.SolvePart2())
 }
