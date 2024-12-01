@@ -1,0 +1,87 @@
+#!/usr/bin/python3
+
+part_one_example_answer = 35
+part_one_answer = 265018614
+
+part_two_example_answer = 46
+part_two_answer = 63179500
+
+
+def convert(seeds, lines):
+    sources = seeds.copy()
+    dest = []
+    for line in lines:
+        vals = [int(x) for x in line.split()]
+        dest_range_start = vals[0]
+        source_range_start = vals[1]
+        range_length = vals[2]
+        diff = source_range_start - dest_range_start
+
+        for source in seeds:
+            if source_range_start <= source < source_range_start + range_length:
+                dest.append(source - diff)
+                sources.remove(source)
+
+    dest.extend(sources)
+    return dest
+
+
+def solve():
+    # input = get_example_input().splitlines()
+    input = open("input.txt").read().splitlines()
+    seeds = [int(x) for x in input[0].split()[1:]]
+    lines = []
+    for i in range(2, len(input)):
+        line = input[i]
+        if line == "":
+            seeds = convert(seeds, lines)
+        elif ":" in line:
+            lines = []
+        else:
+            lines.append(line)
+
+    # sorted via convert
+    answer = sorted(seeds)[0]
+    print(answer)
+    assert answer == part_one_answer or answer == part_one_example_answer
+
+
+def get_example_input():
+    return """seeds: 79 14 55 13
+
+seed-to-soil map:
+50 98 2
+52 50 48
+
+soil-to-fertilizer map:
+0 15 37
+37 52 2
+39 0 15
+
+fertilizer-to-water map:
+49 53 8
+0 11 42
+42 0 7
+57 7 4
+
+water-to-light map:
+88 18 7
+18 25 70
+
+light-to-temperature map:
+45 77 23
+81 45 19
+68 64 13
+
+temperature-to-humidity map:
+0 69 1
+1 0 69
+
+humidity-to-location map:
+60 56 37
+56 93 4
+"""
+
+
+if __name__ == '__main__':
+    solve()

@@ -1,0 +1,50 @@
+#!/usr/bin/python3
+example_input = """Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
+Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
+Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
+Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
+Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"""
+
+example_points = 13
+example_instances = 30
+
+
+def count_matches(card):
+    split_by_pipe = card.split('|')
+    left_side = split_by_pipe[0].split(':')[1].strip().split(' ')
+    right_side = list(filter(None, split_by_pipe[1].strip().split(' ')))
+    return len(set(left_side).intersection(set(right_side)))
+
+
+def run():
+    points = 0
+    card_num = 0
+    instances = 0
+    stats = {}  # {card_number: instances}
+
+    # cards = example_input.splitlines()
+    cards = list(open('input.txt'))
+
+    for card in cards:
+        card_num += 1
+
+        copies = stats.get(card_num, 0) + 1
+        matches = count_matches(card)
+        instances += copies
+
+        if matches > 0:
+            points += 2 ** (matches - 1)
+            for offset in range(matches):
+                card_lookup_num = card_num + offset + 1
+                if card_lookup_num < len(cards):
+                    stats[card_lookup_num] = stats.get(card_lookup_num,
+                                                       0) + copies
+
+    print(f"Part 1 : {points}")
+    print(f"Part 2 : {instances}")  # 9844140 is too low, should be 9881048
+    # https://gist.github.com/mattforbes-gr/cf27cc3f3a741623aa57f6b63b65a209
+
+
+if __name__ == '__main__':
+    run()
