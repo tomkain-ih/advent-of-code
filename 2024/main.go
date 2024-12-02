@@ -2,12 +2,14 @@ package main
 
 import (
 	"2024/day01"
+	"2024/day02"
 	"fmt"
 )
 
 func main() {
 	solvers := []Solver{
 		day01.Solver{},
+		day02.Solver{},
 		// Add more solvers as needed, e.g., day02.Day02Solver{}
 	}
 
