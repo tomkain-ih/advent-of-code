@@ -1,0 +1,99 @@
+This Python code processes a grid of characters (read from a file named `"input"`) and checks for occurrences of the sequence `["X", "M", "A", "S"]` in any direction (horizontal, vertical, diagonal, or anti-diagonal). Here's a detailed breakdown of how it works:
+
+1. Reading the Input File
+with open("input") as f:
+    ls = f.read().strip().split("\n")
+The file `"input"` is opened and read.
+`f.read().strip()` removes any leading or trailing whitespace.
+`.split("\n")` splits the input into a list of strings, where each string represents a row of the grid.
+For example, if the file contains:
+
+XMAS
+ABCD
+EFGH
+IJKL
+`ls` will be:
+
+["XMAS", "ABCD", "EFGH", "IJKL"]
+2. Creating the `boardz` Dictionary
+boardz = defaultdict(str)
+boardz |= {i + 1j * j: x for i, l in enumerate(ls) for j, x in enumerate(l)}
+`boardz` is a `defaultdict` where the default value is an empty string (`""`).
+The dictionary `boardz` is populated with keys as complex numbers (`i + 1j * j`) and values as the corresponding characters from the grid.
+`i` is the row index.
+`j` is the column index.
+`x` is the character at position `(i, j)` in the grid.
+Complex numbers are used to represent 2D coordinates, where the real part (`i`) represents the row, and the imaginary part (`j`) represents the column.
+For the example grid:
+
+XMAS
+ABCD
+EFGH
+IJKL
+`boardz` will look like:
+
+{
+    0 + 0j: 'X', 0 + 1j: 'M', 0 + 2j: 'A', 0 + 3j: 'S',
+    1 + 0j: 'A', 1 + 1j: 'B', 1 + 2j: 'C', 1 + 3j: 'D',
+    2 + 0j: 'E', 2 + 1j: 'F', 2 + 2j: 'G', 2 + 3j: 'H',
+    3 + 0j: 'I', 3 + 1j: 'J', 3 + 2j: 'K', 3 + 3j: 'L',
+}
+3. Defining Directions (`octdir`)
+octdir = {i + 1j * j for (i, j) in set(product((-1, 0, 1), (-1, 0, 1))) - {(0, 0)}}
+`product((-1, 0, 1), (-1, 0, 1))` generates all combinations of `(-1, 0, 1)` for both `i` and `j`. This represents all possible directions in a 2D grid.
+`{(0, 0)}` is subtracted to exclude the "no movement" direction.
+The remaining directions are converted into complex numbers (`i + 1j * j`) and stored in the set `octdir`.
+`octdir` will contain:
+
+{-1-1j, -1+0j, -1+1j, 0-1j, 0+1j, 1-1j, 1+0j, 1+1j}
+These represent the 8 possible directions:
+
+Horizontal: `0+1j` (right), `0-1j` (left)
+Vertical: `1+0j` (down), `-1+0j` (up)
+Diagonal: `1+1j` (down-right), `1-1j` (down-left), `-1+1j` (up-right), `-1-1j` (up-left)
+4. Part 1: Counting the Sequence
+print(
+    sum(
+        [boardz[z + i * dz] for i in range(4)] == ["X", "M", "A", "S"]
+        for z in list(boardz.keys())
+        for dz in octdir
+    )
+)
+This part checks for occurrences of the sequence `["X", "M", "A", "S"]` in all possible directions and counts how many times it appears.
+
+Step-by-Step:
+Outer Loops:
+
+`for z in list(boardz.keys())`: Iterates over all positions (`z`) in the grid.
+`for dz in octdir`: Iterates over all 8 possible directions (`dz`).
+Extracting Characters in a Direction:
+
+[boardz[z + i * dz] for i in range(4)]
+For each starting position `z` and direction `dz`, this generates a list of 4 characters by moving in the direction `dz` for 4 steps (`i = 0, 1, 2, 3`).
+If a position `z + i * dz` is out of bounds, `boardz` will return the default value (`""`) because it is a `defaultdict`.
+Checking for the Sequence:
+
+[boardz[z + i * dz] for i in range(4)] == ["X", "M", "A", "S"]
+Compares the extracted 4 characters to the target sequence `["X", "M", "A", "S"]`.
+Summing Up:
+
+sum(...)
+The `sum` function counts how many times the condition is `True` (i.e., how many times the sequence `["X", "M", "A", "S"]` is found).
+Example Walkthrough
+For the grid:
+
+XMAS
+ABCD
+EFGH
+IJKL
+Starting at `z = 0 + 0j` (top-left corner) and moving in the direction `dz = 0+1j` (right):
+Extracted characters: `["X", "M", "A", "S"]`
+Matches the target sequence, so this counts as 1 occurrence.
+The process repeats for all positions and directions.
+Output
+The program prints the total number of times the sequence `["X", "M", "A", "S"]` appears in the grid in any direction.
+
+Key Concepts
+Complex Numbers: Used to represent 2D coordinates and directions.
+`defaultdict`: Provides a default value for out-of-bounds positions.
+Grid Traversal: Iterates over all positions and directions to check for the sequence.
