@@ -7,6 +7,7 @@ import (
 	"2024/day04"
 	"2024/day05"
 	"2024/day06"
+	"2024/day07"
 	"fmt"
 )
 
@@ -18,6 +19,7 @@ func main() {
 		day04.Solver{},
 		day05.Solver{},
 		day06.Solver{},
+		day07.Solver{},
 	}
 
 	solver := solvers[len(solvers)-1]
