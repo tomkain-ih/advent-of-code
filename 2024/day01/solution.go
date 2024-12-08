@@ -18,16 +18,16 @@ func (d Solver) GetLabel() string {
 	return "Day 01"
 }
 
-func (d Solver) SolvePart1() string {
+func (d Solver) SolvePart1() int {
 	input := d.GetInput()
 	A, B := colwiseSplit(input)
 	sort.Ints(A)
 	sort.Ints(B)
 	result := rowWiseAbsDiffSummed(A, B)
-	return strconv.Itoa(result)
+	return result
 }
 
-func (d Solver) SolvePart2() string {
+func (d Solver) SolvePart2() int {
 	input := d.GetInput()
 	A, B := colwiseSplit(input)
 	sum := 0
@@ -35,7 +35,7 @@ func (d Solver) SolvePart2() string {
 		count := countOccurrences(B, a)
 		sum += a * count
 	}
-	return strconv.Itoa(sum)
+	return sum
 }
 
 func colwiseSplit(data string) ([]int, []int) {

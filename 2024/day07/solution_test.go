@@ -34,36 +34,36 @@ func TestStream(t *testing.T) {
 
 func TestSolvePart1Example(t *testing.T) {
 	solver := Solver{Input: input1}
-	expected := "3749"
+	expected := 3749
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %s, but got %s", expected, actual)
+		t.Errorf("Expected %d, but got %d", expected, actual)
 	}
 }
 
 func TestSolvePart1(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := "6392012777720"
+	expected := 6392012777720
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %s, but got %s", expected, actual)
+		t.Errorf("Expected %d, but got %d", expected, actual)
 	}
 }
 
 func TestSolvePart2Example(t *testing.T) {
 	solver := Solver{Input: input1}
-	expected := "11387"
+	expected := 11387
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %s, but got %s", expected, actual)
+		t.Errorf("Expected %d, but got %d", expected, actual)
 	}
 }
 
 func TestSolvePart2(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := "61561126043536"
+	expected := 61561126043536
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %s, but got %s", expected, actual)
+		t.Errorf("Expected %d, but got %d", expected, actual)
 	}
 }

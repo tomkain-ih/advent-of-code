@@ -76,36 +76,36 @@ func TestGetAntiNodes(t *testing.T) {
 
 func TestSolvePart1Example(t *testing.T) {
 	solver := Solver{Input: input1}
-	expected := "14"
+	expected := 14
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %s, but got %s", expected, actual)
+		t.Errorf("Expected %d, but got %d", expected, actual)
 	}
 }
 
 func TestSolvePart1(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := "344"
+	expected := 344
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %s, but got %s", expected, actual)
+		t.Errorf("Expected %d, but got %d", expected, actual)
 	}
 }
 
 func TestSolvePart2Example(t *testing.T) {
 	solver := Solver{Input: input1}
-	expected := "34"
+	expected := 34
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %s, but got %s", expected, actual)
+		t.Errorf("Expected %d, but got %d", expected, actual)
 	}
 }
 
 func TestSolvePart2(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := "1182"
+	expected := 1182
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %s, but got %s", expected, actual)
+		t.Errorf("Expected %d, but got %d", expected, actual)
 	}
 }

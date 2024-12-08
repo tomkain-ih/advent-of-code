@@ -3,7 +3,6 @@ package day08
 import (
 	"log"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -21,7 +20,7 @@ func (d Solver) GetLabel() string {
 	return "Day 08"
 }
 
-func (d Solver) SolvePart1() string {
+func (d Solver) SolvePart1() int {
 	input := d.GetInput()
 	antennas, bounds := readGrid(input)
 	antinodes := make(map[Point]struct{})
@@ -35,10 +34,10 @@ func (d Solver) SolvePart1() string {
 			}
 		}
 	}
-	return strconv.Itoa(len(antinodes))
+	return len(antinodes)
 }
 
-func (d Solver) SolvePart2() string {
+func (d Solver) SolvePart2() int {
 	input := d.GetInput()
 	antennas, bounds := readGrid(input)
 	antinodes := make(map[Point]struct{})
@@ -49,7 +48,7 @@ func (d Solver) SolvePart2() string {
 			antinodes[antinode] = struct{}{}
 		}
 	}
-	return strconv.Itoa(len(antinodes))
+	return len(antinodes)
 }
 
 func (p Point) withinBounds(bounds Point) bool {

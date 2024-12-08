@@ -33,7 +33,7 @@ func (d Solver) GetLabel() string {
 	return "Day 03"
 }
 
-func (d Solver) SolvePart1() string {
+func (d Solver) SolvePart1() int {
 	input := d.GetInput()
 	matches := getMatches(input, getPart1RegexPattern())
 	sum := 0
@@ -41,7 +41,7 @@ func (d Solver) SolvePart1() string {
 		result := multiply(match)
 		sum += result
 	}
-	return strconv.Itoa(sum)
+	return sum
 }
 
 func multiply(input string) int {
@@ -58,7 +58,7 @@ func multiply(input string) int {
 	return num1 * num2
 }
 
-func (d Solver) SolvePart2() string {
+func (d Solver) SolvePart2() int {
 	input := d.GetInput()
 	matches := getMatches(input, getPart2RegexPattern())
 	sum := 0
@@ -73,7 +73,7 @@ func (d Solver) SolvePart2() string {
 			sum += result
 		}
 	}
-	return strconv.Itoa(sum)
+	return sum
 }
 
 func (d Solver) GetInput() string {

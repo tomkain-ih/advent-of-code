@@ -17,7 +17,7 @@ func (d Solver) GetLabel() string {
 	return "Day 05"
 }
 
-func (d Solver) SolvePart1() string {
+func (d Solver) SolvePart1() int {
 	input := d.GetInput()
 	rules := createRulesMap(input)
 	updates := createUpdatesSlice(input)
@@ -27,10 +27,10 @@ func (d Solver) SolvePart1() string {
 			sum += middleElem(update)
 		}
 	}
-	return strconv.Itoa(sum)
+	return sum
 }
 
-func (d Solver) SolvePart2() string {
+func (d Solver) SolvePart2() int {
 	input := d.GetInput()
 	rules := createRulesMap(input)
 	updates := createUpdatesSlice(input)
@@ -41,7 +41,7 @@ func (d Solver) SolvePart2() string {
 			sum += middleElem(corrected)
 		}
 	}
-	return strconv.Itoa(sum)
+	return sum
 }
 
 func correctSequence(update []int, rules map[int][]int) []int {

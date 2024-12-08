@@ -16,16 +16,16 @@ func (d Solver) GetLabel() string {
 	return "Day 07"
 }
 
-func (d Solver) SolvePart1() string {
+func (d Solver) SolvePart1() int {
 	input := d.GetInput()
 	sum := solve(input, false)
-	return strconv.Itoa(sum)
+	return sum
 }
 
-func (d Solver) SolvePart2() string {
+func (d Solver) SolvePart2() int {
 	input := d.GetInput()
 	sum := solve(input, true)
-	return strconv.Itoa(sum)
+	return sum
 }
 
 func solve(input string, concat bool) int {
