@@ -10,44 +10,58 @@ type Solver struct {
 	File  string
 }
 
+type File struct {
+	id, span, start int
+}
+
 func (d Solver) GetLabel() string {
 	return "Day 09"
 }
 
 func (d Solver) SolvePart1() int {
 	input := d.GetInput()
-	blocks, length := decodeBlocks(input)
+	blocks, length, _, _, _ := decodeBlocks(input)
 	frag := fragBlocks(blocks, length)
 	return checksum(frag)
 }
 
 func (d Solver) SolvePart2() int {
-	//input := d.GetInput()
-	return 0
+	//TODO fix this
+	input := d.GetInput()
+	blocks, length, spaces, maxFileId, files := decodeBlocks(input)
+	blocks = fragFiles(blocks, length, spaces, maxFileId, files)
+	return checksum(blocks)
 }
 
-func decodeBlocks(input string) (map[int]int, int) {
-	blocks := make(map[int]int)
-	spaces := make(map[int]int)
+func decodeBlocks(input string) (map[int]int, int, map[int]int, int, map[int]File) {
+	//12345 -> 0..111....22222
+	blocks := make(map[int]int) //block id -> file id
+	spaces := make(map[int]int) //block id -> span/length
+	files := make(map[int]File) //file id -> span/length and start
+	file := 0
 	block := 0
 	for i, c := range input {
-		v := int(c - '0')
+		v := int(c - '0') //convert rune to int
 		//v = block length
 		if i%2 == 0 {
 			//file block
-			//i/2 = file id
+			file = i / 2
+			files[file] = File{file, v, block}
 			for j := 0; j < v; j++ {
-				blocks[block] = i / 2
+				blocks[block] = file
 				block++
 			}
 		} else {
 			//free space
-			spaces[block] = v
+			if v > 0 {
+				spaces[block] = v
+			}
 			block += v
 		}
 	}
 	//last block value = blocks length
-	return blocks, block
+	//last file value = max file id
+	return blocks, block, spaces, file, files
 }
 
 func fragBlocks(blocks map[int]int, length int) map[int]int {
@@ -69,24 +83,31 @@ func fragBlocks(blocks map[int]int, length int) map[int]int {
 	return frag
 }
 
-func fragFiles(blocks map[int]int, length int, spaces map[int]int) map[int]int {
-	frag := make(map[int]int)
-	cursor := length
-	for i := 0; i < cursor; i++ {
-		if _, ok := blocks[i]; ok {
-			frag[i] = blocks[i]
-		} else {
-			for {
-				cursor--
-				if _, ok := blocks[cursor]; ok {
-					frag[i] = blocks[cursor]
-					//delete(blocks, cursor)
+func fragFiles(blocks map[int]int, length int, spaces map[int]int, maxFileId int, files map[int]File) map[int]int {
+	for f := maxFileId; f >= 0; f-- {
+		file := files[f]
+		for block := 0; block < length; block++ {
+			if spaceSpan, ok := spaces[block]; ok {
+				if spaceSpan >= file.span {
+					//remove file from file.start + file.span in blocks
+					for i := file.start; i < file.start+file.span; i++ {
+						delete(blocks, i)
+					}
+					// add file to block + file.span in blocks
+					for i := block; i < block+file.span; i++ {
+						blocks[i] = f
+					}
+					// update spaces
+					delete(spaces, block)
+					if spaceSpan > file.span {
+						spaces[block+file.span] = spaceSpan - file.span
+					}
 					break
 				}
 			}
 		}
 	}
-	return frag
+	return blocks
 }
 
 func checksum(frag map[int]int) int {

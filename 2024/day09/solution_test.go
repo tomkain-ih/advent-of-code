@@ -5,7 +5,6 @@ import (
 )
 
 const input1 = "12345"
-const input2 = `2333133121414131402`
 
 // 0..111....22222
 var length1 = 15
@@ -20,6 +19,11 @@ var blocks1 = map[int]int{
 	13: 2,
 	14: 2,
 }
+var files1 = map[int]File{
+	0: {0, 1, 0},
+	1: {1, 3, 3},
+	2: {2, 5, 10},
+}
 
 // 022111222......
 var frag1 = map[int]int{
@@ -33,6 +37,8 @@ var frag1 = map[int]int{
 	7: 2,
 	8: 2,
 }
+
+const input2 = `2333133121414131402`
 
 // 00...111...2...333.44.5555.6666.777.888899
 var length2 = 42
@@ -65,6 +71,18 @@ var blocks2 = map[int]int{
 	39: 8,
 	40: 9,
 	41: 9,
+}
+var files2 = map[int]File{
+	0: {0, 2, 0},
+	1: {1, 3, 5},
+	2: {2, 1, 11},
+	3: {3, 3, 15},
+	4: {4, 2, 19},
+	5: {5, 4, 22},
+	6: {6, 4, 27},
+	7: {7, 3, 32},
+	8: {8, 4, 36},
+	9: {9, 2, 40},
 }
 
 // 0099811188827773336446555566..............
@@ -99,25 +117,75 @@ var frag2 = map[int]int{
 	27: 6,
 }
 
-func TestDecodeBlocks(t *testing.T) {
-	b, l := decodeBlocks(input1)
-	if length1 != l {
-		t.Errorf("Expected %d, but got %d", length1, l)
-	}
-	for k, v := range blocks1 {
-		if b[k] != v {
-			t.Errorf("Expected %d, but got %d", v, b[k])
-		}
-	}
+// 00992111777.44.333....5555.6666.....8888..
+var fileFrag2 = map[int]int{
+	0:  0,
+	1:  0,
+	2:  9,
+	3:  9,
+	4:  2,
+	5:  1,
+	6:  1,
+	7:  1,
+	8:  7,
+	9:  7,
+	10: 7,
+	12: 4,
+	13: 4,
+	15: 3,
+	16: 3,
+	17: 3,
+	22: 5,
+	23: 5,
+	24: 5,
+	25: 5,
+	27: 6,
+	28: 6,
+	29: 6,
+	30: 6,
+	36: 8,
+	37: 8,
+	38: 8,
+	39: 8,
+}
 
-	b, l = decodeBlocks(input2)
-	if length2 != l {
-		t.Errorf("Expected %d, but got %d", length2, l)
+func TestDecodeBlocks(t *testing.T) {
+	tests := []struct {
+		name   string
+		input  string
+		length int
+		blocks map[int]int
+		id     int
+		files  map[int]File
+	}{
+		{"1", input1, length1, blocks1, 2, files1},
+		{"2", input2, length2, blocks2, 9, files2},
 	}
-	for k, v := range blocks2 {
-		if b[k] != v {
-			t.Errorf("Expected %d, but got %d", v, b[k])
-		}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			b, l, s, id, f := decodeBlocks(tt.input)
+			if tt.length != l {
+				t.Errorf("Expected %d, but got %d", tt.length, l)
+			}
+			for k, v := range tt.blocks {
+				if b[k] != v {
+					t.Errorf("Expected %d, but got %d", v, b[k])
+				}
+			}
+			for k, _ := range s {
+				if _, ok := tt.blocks[k]; ok {
+					t.Errorf("%d key occupies space and file", k)
+				}
+			}
+			if tt.id != id {
+				t.Errorf("Expected %d, but got %d", tt.id, id)
+			}
+			for k, v := range f {
+				if tt.files[k] != v {
+					t.Errorf("Expected %v, but got %v", tt.files[k], v)
+				}
+			}
+		})
 	}
 }
 
@@ -142,6 +210,16 @@ func TestChecksum(t *testing.T) {
 	expected := 1928
 	if c != expected {
 		t.Errorf("Expected %d, but got %d", expected, c)
+	}
+}
+
+func TestFragFiles(t *testing.T) {
+	blocks, length, spaces, maxFileId, files := decodeBlocks(input2)
+	f := fragFiles(blocks, length, spaces, maxFileId, files)
+	for k, v := range fileFrag2 {
+		if f[k] != v {
+			t.Errorf("Expected %d, but got %d for key %d", v, f[k], k)
+		}
 	}
 }
 
@@ -174,7 +252,7 @@ func TestSolvePart2Example(t *testing.T) {
 
 func TestSolvePart2(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 1182
+	expected := 6326952672104 //failing, too high
 	actual := solver.SolvePart2()
 	if expected != actual {
 		t.Errorf("Expected %d, but got %d", expected, actual)
