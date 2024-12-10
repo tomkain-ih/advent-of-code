@@ -1,4 +1,4 @@
-package day08
+package day10
 
 import (
 	"log"
@@ -11,123 +11,99 @@ type Solver struct {
 	File  string
 }
 
-type Point struct {
-	X int
-	Y int
+type point struct {
+	x, y int
 }
 
 func (d Solver) GetLabel() string {
-	return "Day 08"
+	return "Day 10"
 }
 
 func (d Solver) SolvePart1() int {
 	input := d.GetInput()
-	antennas, bounds := readGrid(input)
-	antinodes := make(map[Point]struct{})
-	//for each value, capture the unique pairs of points
-	for _, pairs := range getPairs(antennas) {
-		//for each pair of points, calculate their two antinodes
-		for _, antinode := range getAntiNodes(pairs) {
-			//for each antinode if within bounds, increment antinode count
-			if antinode.X >= 0 && antinode.X <= bounds.X && antinode.Y <= 0 && antinode.Y >= bounds.Y {
-				antinodes[antinode] = struct{}{}
-			}
-		}
+	grid, trailheads := parseInput(input)
+	sum := 0
+	for _, trailhead := range trailheads {
+		score := countDestinations(grid, trailhead)
+		sum += score
 	}
-	return len(antinodes)
+	return sum
 }
 
 func (d Solver) SolvePart2() int {
 	input := d.GetInput()
-	antennas, bounds := readGrid(input)
-	antinodes := make(map[Point]struct{})
-	for _, pairs := range getPairs(antennas) {
-		antinodes[pairs[0]] = struct{}{}
-		antinodes[pairs[1]] = struct{}{}
-		for _, antinode := range getAntiNodesAndHarmonics(pairs, bounds) {
-			antinodes[antinode] = struct{}{}
-		}
+	grid, trailheads := parseInput(input)
+	sum := 0
+	for _, trailhead := range trailheads {
+		score := countPaths(grid, trailhead)
+		sum += score
 	}
-	return len(antinodes)
+	return sum
 }
 
-func (p Point) withinBounds(bounds Point) bool {
-	return p.X >= 0 && p.X <= bounds.X && p.Y <= 0 && p.Y >= bounds.Y
-}
-
-func readGrid(input string) (map[rune][]Point, Point) {
-	antennas := make(map[rune][]Point)
-	var last Point
+func parseInput(input string) (map[point]int, []point) {
+	grid := make(map[point]int)
+	var trailheads []point
 	for y, line := range strings.Split(input, "\n") {
-		for x, val := range line {
-			if val != '.' {
-				antennas[val] = append(antennas[val], Point{x, -y})
-			}
-		}
-		last = Point{len(line) - 1, -y}
-	}
-	return antennas, last
-}
-
-func getPairs(antennas map[rune][]Point) [][]Point {
-	var pairs [][]Point
-	for _, v := range antennas {
-		for i := 0; i < len(v); i++ {
-			for j := i + 1; j < len(v); j++ {
-				pair := []Point{v[i], v[j]}
-				pairs = append(pairs, pair)
+		for x, char := range line {
+			height := int(char - '0')
+			p := point{x, y}
+			grid[p] = height
+			if height == 0 {
+				trailheads = append(trailheads, p)
 			}
 		}
 	}
-	return pairs
+	return grid, trailheads
 }
 
-func getAntiNodesAndHarmonics(pair []Point, bounds Point) []Point {
-	if len(pair) != 2 {
-		log.Fatal("Expected 2 values in pair")
-	}
-	var result []Point
-	node1 := pair[0]
-	node2 := pair[1]
-	yDist := node1.Y - node2.Y
-	xDist := node1.X - node2.X
-
-	for {
-		node1 = Point{node1.X + xDist, node1.Y + yDist}
-		node2 = Point{node2.X - xDist, node2.Y - yDist}
-		if !node1.withinBounds(bounds) && !node2.withinBounds(bounds) {
-			break
-		}
-
-		if node1.withinBounds(bounds) {
-			result = append(result, node1)
-		}
-		if node2.withinBounds(bounds) {
-			result = append(result, node2)
-		}
-	}
-
-	return result
+func countDestinations(grid map[point]int, trailhead point) int {
+	height := 0
+	neighbors := trailhead.neighbors()
+	seen, _ := tryNeighbors(grid, neighbors, height, make(map[point]struct{}))
+	return len(seen)
 }
 
-func getAntiNodes(pair []Point) []Point {
-	if len(pair) != 2 {
-		log.Fatal("Expected 2 values in pair")
-	}
-	var result []Point
-	yDist := pair[0].Y - pair[1].Y
-	xDist := pair[0].X - pair[1].X
+func countPaths(grid map[point]int, trailhead point) int {
+	height := 0
+	neighbors := trailhead.neighbors()
+	_, score := tryNeighbors(grid, neighbors, height, make(map[point]struct{}))
+	return score
+}
 
-	result = append(result, Point{pair[0].X + xDist, pair[0].Y + yDist})
-	result = append(result, Point{pair[1].X - xDist, pair[1].Y - yDist})
-	return result
+func tryNeighbors(grid map[point]int, neighbors []point, height int, seen map[point]struct{}) (map[point]struct{}, int) {
+	score := 0
+	var s int
+	for _, neighbor := range neighbors {
+		if val, ok := grid[neighbor]; ok {
+			if val == height+1 {
+				if val == 9 {
+					seen[neighbor] = struct{}{}
+					score++
+				} else {
+					seen, s = tryNeighbors(grid, neighbor.neighbors(), height+1, seen)
+					score += s
+				}
+			}
+		}
+	}
+	return seen, score
+}
+
+func (p point) neighbors() []point {
+	return []point{
+		{p.x - 1, p.y},
+		{p.x + 1, p.y},
+		{p.x, p.y - 1},
+		{p.x, p.y + 1},
+	}
 }
 
 func (d Solver) GetFile() string {
 	if d.File != "" {
 		return d.File
 	}
-	return "day08/input.txt"
+	return "day10/input.txt"
 }
 
 func (d Solver) GetInput() string {
