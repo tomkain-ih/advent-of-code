@@ -26,7 +26,7 @@ func TestSolvePart1Example(t *testing.T) {
 
 func TestSolvePart1(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 213625
+	expected := 1396562
 	actual := solver.SolvePart1()
 	if expected != actual {
 		t.Errorf("Expected %d, but got %d", expected, actual)
@@ -35,7 +35,7 @@ func TestSolvePart1(t *testing.T) {
 
 func TestSolvePart2Example(t *testing.T) {
 	solver := Solver{Input: input1}
-	expected := 55312
+	expected := 1206
 	actual := solver.SolvePart2()
 	if expected != actual {
 		t.Errorf("Expected %d, but got %d", expected, actual)
@@ -44,7 +44,7 @@ func TestSolvePart2Example(t *testing.T) {
 
 func TestSolvePart2(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 252442982856820
+	expected := 844132
 	actual := solver.SolvePart2()
 	if expected != actual {
 		t.Errorf("Expected %d, but got %d", expected, actual)

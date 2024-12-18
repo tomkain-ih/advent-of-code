@@ -35,15 +35,26 @@ func (d Solver) SolvePart1() int {
 		area := len(region)
 		plant := grid[region[0]]
 		perimeter := computePerimeter(region, plant, grid)
-		fmt.Printf("%c: %d, %d\n", plant, area, perimeter)
 		cost += area * perimeter
 	}
 	return cost
 }
 
 func (d Solver) SolvePart2() int {
-	//input := d.GetInput()
-	return 0
+	input := d.GetInput()
+	grid := readGrid(input)
+	regions := findRegions(grid)
+
+	cost := 0
+	for _, region := range regions {
+		// for each region, multiply area by sides and sum products
+		area := len(region)
+		plant := grid[region[0]]
+		sides := computeSides(region)
+		fmt.Printf("%s: %d * %d\n", string(plant), area, sides)
+		cost += area * sides
+	}
+	return cost
 }
 
 type Point struct {
@@ -57,6 +68,17 @@ func (p Point) Adjacent() []Point {
 		{p.x, p.y - 1},
 		{p.x, p.y + 1},
 	}
+}
+
+type ByRowThenCol []Point
+
+func (a ByRowThenCol) Len() int      { return len(a) }
+func (a ByRowThenCol) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a ByRowThenCol) Less(i, j int) bool {
+	if a[i].y == a[j].y {
+		return a[i].x < a[j].x
+	}
+	return a[i].y < a[j].y
 }
 
 func readGrid(input string) map[Point]rune {
@@ -75,8 +97,11 @@ func findRegions(grid map[Point]rune) [][]Point {
 	regions := make([][]Point, 0)
 	for p, plant := range grid {
 		if _, ok := seen[p]; !ok {
-			region := []Point{p}
+			var region []Point
 			region, seen = addAdjacent(p, plant, region, seen, grid)
+			if len(region) == 0 {
+				region = []Point{p}
+			}
 			regions = append(regions, region)
 		}
 
@@ -110,6 +135,57 @@ func computePerimeter(region []Point, plant rune, grid map[Point]rune) int {
 	}
 	return result
 }
+
+func computeSides(region []Point) int {
+	//TODO finish
+	/*sorted := make([]Point, len(region))
+	copy(sorted, region)
+	sort.Sort(ByRowThenCol(sorted))
+	x := sorted[0].x
+	y := sorted[0].y
+	sides := 4
+	for i := 1; i < len(sorted); i++ {
+
+	}*/
+	return 0
+}
+
+/*func computeSides(region []Point) int {
+	sides := 4
+	bounds := make(map[int][]int)
+	rowSet := make(map[int]struct{})
+	for _, p := range region {
+		rowSet[p.y] = struct{}{}
+		if _, ok := bounds[p.y]; !ok {
+			bounds[p.y] = []int{p.x, p.x}
+		} else {
+			if p.x < bounds[p.y][0] {
+				bounds[p.y][0] = p.x
+			}
+			if p.x > bounds[p.y][1] {
+				bounds[p.y][1] = p.x
+			}
+		}
+	}
+	var rows []int
+	for row := range rowSet {
+		rows = append(rows, row)
+	}
+	sort.Ints(rows)
+	a, b := bounds[rows[0]][0], bounds[rows[0]][1]
+	for i := 1; i < len(rows); i++ {
+		l := bounds[rows[i]][0]
+		r := bounds[rows[i]][1]
+		if l != a {
+			sides += 2
+		}
+		if r != b {
+			sides += 2
+		}
+		a, b = l, r
+	}
+	return sides
+}*/
 
 func (d Solver) GetInput() string {
 	if d.Input != "" {
