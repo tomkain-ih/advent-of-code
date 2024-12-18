@@ -16,7 +16,7 @@ func (d Solver) GetLabel() string {
 	return "Day 04"
 }
 
-func (d Solver) SolvePart1() int {
+func (d Solver) SolvePart1() string {
 	input := d.GetInput()
 	grid, rows, cols := makeGrid(input)
 	count := 0
@@ -38,7 +38,7 @@ func (d Solver) SolvePart1() int {
 			}
 		}
 	}
-	return count
+	return strconv.Itoa(count)
 }
 
 func nextKey(first string, second string) string {
@@ -120,7 +120,7 @@ func makeGrid(input string) (map[string]string, int, int) {
 	return grid, row + 1, col
 }
 
-func (d Solver) SolvePart2() int {
+func (d Solver) SolvePart2() string {
 	input := d.GetInput()
 	grid, rows, cols := makeGrid(input)
 	count := 0
@@ -134,7 +134,7 @@ func (d Solver) SolvePart2() int {
 			}
 		}
 	}
-	return count
+	return strconv.Itoa(count)
 }
 
 func twoMsAndSs(grid map[string]string, keys []string) bool {

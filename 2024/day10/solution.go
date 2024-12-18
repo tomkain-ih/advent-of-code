@@ -3,6 +3,7 @@ package day10
 import (
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -19,7 +20,7 @@ func (d Solver) GetLabel() string {
 	return "Day 10"
 }
 
-func (d Solver) SolvePart1() int {
+func (d Solver) SolvePart1() string {
 	input := d.GetInput()
 	grid, trailheads := parseInput(input)
 	sum := 0
@@ -27,10 +28,10 @@ func (d Solver) SolvePart1() int {
 		score := countDestinations(grid, trailhead)
 		sum += score
 	}
-	return sum
+	return strconv.Itoa(sum)
 }
 
-func (d Solver) SolvePart2() int {
+func (d Solver) SolvePart2() string {
 	input := d.GetInput()
 	grid, trailheads := parseInput(input)
 	sum := 0
@@ -38,7 +39,7 @@ func (d Solver) SolvePart2() int {
 		score := countPaths(grid, trailhead)
 		sum += score
 	}
-	return sum
+	return strconv.Itoa(sum)
 }
 
 func parseInput(input string) (map[point]int, []point) {

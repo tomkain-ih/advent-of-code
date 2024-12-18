@@ -31,27 +31,27 @@ func TestBlink(t *testing.T) {
 
 func TestSolvePart1Example(t *testing.T) {
 	solver := Solver{Input: input1}
-	expected := 55312
+	expected := "55312"
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
 
 func TestSolvePart1(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 213625
+	expected := "213625"
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
 
 func TestSolvePart2(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 252442982856820
+	expected := "252442982856820"
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }

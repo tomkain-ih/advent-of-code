@@ -17,7 +17,7 @@ func (d Solver) GetLabel() string {
 	return "Day 02"
 }
 
-func (d Solver) SolvePart1() int {
+func (d Solver) SolvePart1() string {
 	input := d.GetInput()
 	safe := 0
 	// split by line break
@@ -28,10 +28,10 @@ func (d Solver) SolvePart1() int {
 			safe++
 		}
 	}
-	return safe
+	return strconv.Itoa(safe)
 }
 
-func (d Solver) SolvePart2() int {
+func (d Solver) SolvePart2() string {
 	input := d.GetInput()
 	safe := 0
 	// split by line break
@@ -42,7 +42,7 @@ func (d Solver) SolvePart2() int {
 			safe++
 		}
 	}
-	return safe
+	return strconv.Itoa(safe)
 }
 
 func isSafe(line string) bool {

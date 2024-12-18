@@ -3,6 +3,7 @@ package day06
 import (
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -20,14 +21,14 @@ func (d Solver) GetLabel() string {
 	return "Day 06"
 }
 
-func (d Solver) SolvePart1() int {
+func (d Solver) SolvePart1() string {
 	input := d.GetInput()
 	grid, start := readGrid(input)
 	path, _ := walk(grid, start)
-	return len(path)
+	return strconv.Itoa(len(path))
 }
 
-func (d Solver) SolvePart2() int {
+func (d Solver) SolvePart2() string {
 	input := d.GetInput()
 	grid, start := readGrid(input)
 	path, _ := walk(grid, start)
@@ -40,7 +41,7 @@ func (d Solver) SolvePart2() int {
 		}
 		grid[p] = '.'
 	}
-	return points
+	return strconv.Itoa(points)
 }
 
 func readGrid(input string) (map[complex128]rune, complex128) {

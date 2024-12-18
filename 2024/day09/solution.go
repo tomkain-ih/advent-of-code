@@ -3,6 +3,7 @@ package day09
 import (
 	"log"
 	"os"
+	"strconv"
 )
 
 type Solver struct {
@@ -18,19 +19,19 @@ func (d Solver) GetLabel() string {
 	return "Day 09"
 }
 
-func (d Solver) SolvePart1() int {
+func (d Solver) SolvePart1() string {
 	input := d.GetInput()
 	blocks, length, _, _, _ := decodeBlocks(input)
 	frag := fragBlocks(blocks, length)
-	return checksum(frag)
+	return strconv.Itoa(checksum(frag))
 }
 
-func (d Solver) SolvePart2() int {
+func (d Solver) SolvePart2() string {
 	//TODO fix this
 	input := d.GetInput()
 	blocks, length, spaces, maxFileId, files := decodeBlocks(input)
 	blocks = fragFiles(blocks, length, spaces, maxFileId, files)
-	return checksum(blocks)
+	return strconv.Itoa(checksum(blocks))
 }
 
 func decodeBlocks(input string) (map[int]int, int, map[int]int, int, map[int]File) {

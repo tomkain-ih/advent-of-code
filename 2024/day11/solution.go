@@ -23,16 +23,16 @@ func (d Solver) GetFile() string {
 	return "day11/input.txt"
 }
 
-func (d Solver) SolvePart1() int {
+func (d Solver) SolvePart1() string {
 	input := d.GetInput()
 	stones := blink(input, 25)
-	return len(stones)
+	return strconv.Itoa(len(stones))
 }
 
-func (d Solver) SolvePart2() int {
+func (d Solver) SolvePart2() string {
 	input := d.GetInput()
 	stones := betterBlink(input, 75)
-	return sumValues(stones)
+	return strconv.Itoa(sumValues(stones))
 }
 
 func sumValues(stones map[int]int) int {

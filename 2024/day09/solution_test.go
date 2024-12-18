@@ -225,36 +225,36 @@ func TestFragFiles(t *testing.T) {
 
 func TestSolvePart1Example(t *testing.T) {
 	solver := Solver{Input: input2}
-	expected := 1928
+	expected := "1928"
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
 
 func TestSolvePart1(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 6299243228569
+	expected := "6299243228569"
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
 
 func TestSolvePart2Example(t *testing.T) {
 	solver := Solver{Input: input2}
-	expected := 2858
+	expected := "2858"
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
 
 func TestSolvePart2(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 6326952672104 //failing, too high
+	expected := "6326952672104" //failing, too high
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }

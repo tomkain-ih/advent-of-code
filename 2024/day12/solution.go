@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -23,7 +24,7 @@ func (d Solver) GetFile() string {
 	return "day12/input.txt"
 }
 
-func (d Solver) SolvePart1() int {
+func (d Solver) SolvePart1() string {
 	input := d.GetInput()
 	grid := readGrid(input)
 	regions := findRegions(grid)
@@ -37,10 +38,10 @@ func (d Solver) SolvePart1() int {
 		perimeter := computePerimeter(region, plant, grid)
 		cost += area * perimeter
 	}
-	return cost
+	return strconv.Itoa(cost)
 }
 
-func (d Solver) SolvePart2() int {
+func (d Solver) SolvePart2() string {
 	input := d.GetInput()
 	grid := readGrid(input)
 	regions := findRegions(grid)
@@ -54,7 +55,7 @@ func (d Solver) SolvePart2() int {
 		fmt.Printf("%s: %d * %d\n", string(plant), area, sides)
 		cost += area * sides
 	}
-	return cost
+	return strconv.Itoa(cost)
 }
 
 type Point struct {

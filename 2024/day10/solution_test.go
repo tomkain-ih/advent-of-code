@@ -26,36 +26,36 @@ const input2 = `89010123
 
 func TestSolvePart1Example(t *testing.T) {
 	solver := Solver{Input: input2}
-	expected := 36
+	expected := "36"
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
 
 func TestSolvePart1(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 531
+	expected := "531"
 	actual := solver.SolvePart1()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
 
 func TestSolvePart2Example(t *testing.T) {
 	solver := Solver{Input: input2}
-	expected := 81
+	expected := "81"
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
 
 func TestSolvePart2(t *testing.T) {
 	solver := Solver{File: "input.txt"}
-	expected := 1210
+	expected := "1210"
 	actual := solver.SolvePart2()
 	if expected != actual {
-		t.Errorf("Expected %d, but got %d", expected, actual)
+		t.Errorf("Expected %s, but got %s", expected, actual)
 	}
 }
