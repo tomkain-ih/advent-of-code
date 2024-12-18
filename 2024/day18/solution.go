@@ -25,25 +25,37 @@ func (d Solver) GetFile() string {
 	return "day18/input.txt"
 }
 
-func (d Solver) SolvePart1() int {
+func (d Solver) SolvePart1() string {
 	// create grid
-	grid := makeGrid(d.MaxIndex)
+	grid := makeGrid(d.getMaxIndex())
 
-	// read input as grid points for Bytes count points
-	corruptions := readInput(d.GetInput(), d.Bytes)
+	// read input as grid points
+	corruptions := readInput(d.GetInput())
 
-	// remove input points from grid
-	for _, p := range corruptions {
+	// remove bytes count of input points from grid
+	for _, p := range corruptions[:d.getBytes()] {
 		delete(grid, p)
 	}
 
 	// find first route, which should be shortest
-	return route(grid, d.MaxIndex)
+	return strconv.Itoa(route(grid, d.getMaxIndex()))
 }
 
-func (d Solver) SolvePart2() int {
-	//input := d.GetInput()
-	return 0
+func (d Solver) SolvePart2() string {
+	grid := makeGrid(d.MaxIndex)
+	corruptions := readInput(d.GetInput())
+	for _, p := range corruptions[:d.getBytes()] {
+		delete(grid, p)
+	}
+	var result Point
+	for i := d.getBytes(); i < len(corruptions); i++ {
+		corrupt := corruptions[i]
+		delete(grid, corrupt)
+		if s := route(grid, d.MaxIndex); s == -1 {
+			result = corrupt
+		}
+	}
+	return result.String()
 }
 
 func makeGrid(size int) map[Point]struct{} {
@@ -56,11 +68,9 @@ func makeGrid(size int) map[Point]struct{} {
 	return grid
 }
 
-func readInput(input string, lines int) []Point {
+func readInput(input string) []Point {
 	var points []Point
-	split := strings.Split(input, "\n")
-	for i := 0; i < lines; i++ {
-		line := split[i]
+	for _, line := range strings.Split(input, "\n") {
 		numerals := strings.Split(line, ",")
 		x, _ := strconv.Atoi(numerals[0])
 		y, _ := strconv.Atoi(numerals[1])
@@ -97,11 +107,15 @@ func route(grid map[Point]struct{}, size int) int {
 		}
 		visited[point] = struct{}{}
 	}
-	return 0
+	return -1
 }
 
 type Point struct {
 	x, y int
+}
+
+func (p Point) String() string {
+	return strconv.Itoa(p.x) + "," + strconv.Itoa(p.y)
 }
 
 func (p Point) adjacent() []Point {
@@ -128,4 +142,18 @@ func (d Solver) GetInput() string {
 		log.Fatal(err)
 	}
 	return string(data)
+}
+
+func (d Solver) getBytes() int {
+	if d.Bytes != 0 {
+		return d.Bytes
+	}
+	return 1024
+}
+
+func (d Solver) getMaxIndex() int {
+	if d.MaxIndex != 0 {
+		return d.MaxIndex
+	}
+	return 70
 }

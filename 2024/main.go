@@ -31,7 +31,7 @@ func main() {
 		day10.Solver{},
 		day11.Solver{},
 		day12.Solver{},
-		day18.Solver{MaxIndex: 70, Bytes: 1024},
+		day18.Solver{},
 	}
 
 	solver := solvers[len(solvers)-1]
