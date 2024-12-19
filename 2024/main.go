@@ -14,6 +14,7 @@ import (
 	"2024/day11"
 	"2024/day12"
 	"2024/day18"
+	"2024/day19"
 	"fmt"
 )
 
@@ -32,18 +33,11 @@ func main() {
 		day11.Solver{},
 		day12.Solver{},
 		day18.Solver{},
+		day19.Solver{},
 	}
 
 	solver := solvers[len(solvers)-1]
 	fmt.Println(solver.GetLabel())
-	if solver.SolvePart1() != 0 {
-		fmt.Println(solver.SolvePart1())
-	} else {
-		fmt.Println("Part 1 solve")
-	}
-	if solver.SolvePart2() != 0 {
-		fmt.Println(solver.SolvePart2())
-	} else {
-		fmt.Println("Part 2 solve")
-	}
+	fmt.Println(solver.SolvePart1())
+	fmt.Println(solver.SolvePart2())
 }

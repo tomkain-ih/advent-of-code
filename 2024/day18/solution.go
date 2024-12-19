@@ -42,7 +42,7 @@ func (d Solver) SolvePart1() string {
 }
 
 func (d Solver) SolvePart2() string {
-	grid := makeGrid(d.MaxIndex)
+	grid := makeGrid(d.getMaxIndex())
 	corruptions := readInput(d.GetInput())
 	for _, p := range corruptions[:d.getBytes()] {
 		delete(grid, p)
@@ -53,6 +53,7 @@ func (d Solver) SolvePart2() string {
 		delete(grid, corrupt)
 		if s := route(grid, d.MaxIndex); s == -1 {
 			result = corrupt
+			break
 		}
 	}
 	return result.String()
