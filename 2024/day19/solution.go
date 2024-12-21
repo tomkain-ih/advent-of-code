@@ -9,10 +9,8 @@ import (
 )
 
 type Solver struct {
-	Input    string
-	File     string
-	MaxIndex int
-	Bytes    int
+	Input string
+	File  string
 }
 
 func (d Solver) GetLabel() string {
@@ -106,18 +104,4 @@ func (d Solver) GetInput() string {
 		log.Fatal(err)
 	}
 	return string(data)
-}
-
-func (d Solver) getBytes() int {
-	if d.Bytes != 0 {
-		return d.Bytes
-	}
-	return 1024
-}
-
-func (d Solver) getMaxIndex() int {
-	if d.MaxIndex != 0 {
-		return d.MaxIndex
-	}
-	return 70
 }
