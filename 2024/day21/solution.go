@@ -52,10 +52,11 @@ func numericToDirectional(code string) string {
 	for i := 0; i < len(keyPresses)-1; i++ {
 		directions += traverse(keyPresses[i], keyPresses[i+1])
 	}
+	return ""
 }
 
 func traverse(start, end point) string {
-	
+	return ""
 }
 
 type point struct {
